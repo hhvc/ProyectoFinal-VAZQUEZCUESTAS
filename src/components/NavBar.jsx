@@ -10,13 +10,15 @@ function NavBar() {
     <>
       <Navbar bg="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="#home">Ecommerce</Navbar.Brand>
+          <Navbar.Brand>
+            <NavLink to="">INICIO</NavLink>
+          </Navbar.Brand>
           <Nav className="me-auto">
             <NavLink to="category/carne">Carne</NavLink>
             <NavLink to="category/fruta">Fruta</NavLink>
             <NavLink to="category/verdura">Verdura</NavLink>
           </Nav>
-          <CartWidget/>
+          <CartWidget />
         </Container>
       </Navbar>
     </>

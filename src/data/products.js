@@ -37,7 +37,7 @@ export const products = [
   },
   {
     id: 5,
-    title: "tomate",
+    title: "Tomate",
     description: "perita",
     price: 8000,
     category: "fruta",
