@@ -14,9 +14,9 @@ function NavBar() {
             <NavLink to="">INICIO</NavLink>
           </Navbar.Brand>
           <Nav className="me-auto">
-            <NavLink to="category/carne">Carne</NavLink>
-            <NavLink to="category/fruta">Fruta</NavLink>
-            <NavLink to="category/verdura">Verdura</NavLink>
+            <NavLink to="category/carne" className={"m-2"}>Carne</NavLink>
+            <NavLink to="category/fruta" className={"m-2"}>Fruta</NavLink>
+            <NavLink to="category/verdura" className={"m-2"}>Verdura</NavLink>
           </Nav>
           <CartWidget />
         </Container>
