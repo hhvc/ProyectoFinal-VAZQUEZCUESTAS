@@ -1,27 +1,34 @@
 import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Nav, Navbar } from "react-bootstrap";
+import logo from "../assets/logoCarsas.svg";
 
 import { CartWidget } from "./CartWidget";
 
 function NavBar() {
   return (
-    <>
-      <Navbar bg="light" data-bs-theme="light">
-        <Container>
-          <Navbar.Brand>
-            <NavLink to="">INICIO</NavLink>
-          </Navbar.Brand>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand>
+          <NavLink to="" className="navbar-brand"><img src={logo} alt="Logo" width="64" height="64" /></NavLink>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavLink to="category/carne" className={"m-2"}>Carne</NavLink>
-            <NavLink to="category/fruta" className={"m-2"}>Fruta</NavLink>
-            <NavLink to="category/verdura" className={"m-2"}>Verdura</NavLink>
+            <NavLink to="category/0kms" className="nav-link">
+              0 kms
+            </NavLink>
+            <NavLink to="category/usados" className="nav-link">
+              Usados
+            </NavLink>
+            <NavLink to="category/destacados" className="nav-link">
+              Destacados
+            </NavLink>
           </Nav>
-          <CartWidget />
-        </Container>
-      </Navbar>
-    </>
+        </Navbar.Collapse>
+        <CartWidget />
+      </Container>
+    </Navbar>
   );
 }
 

@@ -1,21 +1,25 @@
+import { useContext } from "react";
+
+import { ItemCounter } from "./ItemCounter";
+import {CartContext} from "../contexts/CartContext";
+
 export const ItemDetail = ({item}) => {
+    const {onAdd} = useContext(CartContext);
+
+    const add =(quantity)=>{
+        onAdd(item, quantity);
+    };
 
     return (
         <>
-            <h1>{item.title}</h1>
-            <img src={item.pictureUrl}/>
-            <p>{item.description}</p>
-
+            <h1>{item.marca}</h1>
+            <h2>{item.modelo} {item.version}</h2>
+            <img src={item.IMAGEN.DESTACADA} width={400}/>
+            <p>Año: {item.año}</p>
+            <p>Kms: {item.kms}</p>
+            <h3>Precio: ${item.precio}</h3>
+            <h4>Stock: {item.STOCK}</h4>
+            <ItemCounter onAdd={add} stock={item.STOCK} initial={1}/>
         </>
-    )
-}
-
-// {
-//     id: 1,
-//     title: "Cuadril",
-//     description: "novillo",
-//     price: 4000,
-//     category: "carne",
-//     pictureUrl:
-//       "https://encarnepropia.com.ar/wp-content/uploads/2019/09/IMG_2980-2.jpg",
-//   },
+    );
+};

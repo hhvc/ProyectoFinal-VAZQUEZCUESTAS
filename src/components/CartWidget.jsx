@@ -1,10 +1,20 @@
-import carrito from "../assets/carritoCompras.png";
+import { Link } from "react-router-dom";
+import cart from "../assets/carritoCompras.png";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
 export const CartWidget = () => {
-    return (
-        <>
-            <img src={carrito} alt="carrito de compras" width={30} />
-            <span>3</span>
-        </>
-    );
+  const { items } = useContext(CartContext);
+
+  const total = items.reduce(
+    (acumulador, valorActual) => acumulador + valorActual.quantity,
+    0
+  );
+
+  return (
+    <Link to="/cart">
+      <img src={cart} alt="carrito de compras" width={30} />
+      <span>{total}</span>
+    </Link>
+  );
 };

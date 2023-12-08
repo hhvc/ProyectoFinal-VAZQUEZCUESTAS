@@ -1,8 +1,14 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import Container from "react-bootstrap/Container";
-import { products } from "../data/products";
 import { ItemList } from "./ItemList";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const ItemListContainer = (props) => {
   const [items, setItems] = useState([]);
@@ -10,21 +16,25 @@ export const ItemListContainer = (props) => {
   const { id } = useParams();
 
   useEffect(() => {
-    const mypromise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(products);
-      }, 2000);
-    });
+    const db = getFirestore();
 
-    mypromise.then((response) => {
-      if (!id) {
-        setItems(response);
-      } else {
-        const filterByCategory = response.filter(
-          (item) => item.category === id
+    const refCollection = !id
+      ? collection(db, "automotores")
+      : id=="0kms"
+      ? query(collection(db, "automotores"), where("kms", "==", 0))
+      :id=="destacados"
+      ?query(collection(db, "automotores"), where("destacado", "==", true))
+      :query(collection(db, "automotores"), where("kms", ">", 0));
+
+    getDocs(refCollection).then((snapshot) => {
+      if (snapshot.size === 0)
+        console.log("No se encontraron automotores para mostrar");
+      else
+        setItems(
+          snapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() };
+          })
         );
-        setItems(filterByCategory);
-      }
     });
   }, [id]);
 
