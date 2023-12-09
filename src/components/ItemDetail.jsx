@@ -17,7 +17,7 @@ export const ItemDetail = ({item}) => {
             <img src={item.IMAGEN.DESTACADA} width={400}/>
             <p>Año: {item.año}</p>
             <p>Kms: {item.kms}</p>
-            <h3>Precio: ${item.precio}</h3>
+            <h3>Precio: ${item.precio.toLocaleString()}</h3>
             <h4>Stock: {item.STOCK}</h4>
             <ItemCounter onAdd={add} stock={item.STOCK} initial={1}/>
         </>

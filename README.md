@@ -1,8 +1,18 @@
-# React + Vite
+# Coderhouse - Proyecto final curso React: E-commerce con Vite + ReactJS
+___
+>Alumno: Héctor Vázquez Cuestas
+>Comisión: 49875
+>Año: 2023
+>Profesor: Julio Avantt
+>Tutor: Juan Manuel Chico
+___
+> En este proyecto que espero sirva de base para otros más completos, estoy usando:
+___
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Vite + ReactJS**
+    - Components
+    - Hooks
+        - Contexts
+- **Servicio cloud de Google: Firebase**
+    - Colecciones (Firestore)
+-   Variables de entorno ocultas en archivo .env
