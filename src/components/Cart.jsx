@@ -31,36 +31,46 @@ export const Cart = (props) => {
     });
   };
 
-  const sendOrder = () => {
+  const sendOrder = async () => {
     if (!buyer.name || !buyer.email || !buyer.phone) {
       alert("Por favor, complete todos los campos.");
       return;
     }
-
-    // Calcular el total basado en la cantidad y precio de cada artículo en el carrito
+  
     const calculatedTotal = items.reduce(
       (acumulador, valorActual) =>
         acumulador + valorActual.quantity * valorActual.precio,
       0
     );
-
+  
     const order = {
       buyer,
       items,
       total: calculatedTotal,
     };
-
-    const db = getFirestore();
-    const orderCollection = collection(db, "orders");
-
-    addDoc(orderCollection, order).then(({ id }) => {
-      if (id) {
-        alert("Su orden fue procesada con éxito. ID: " + id);
-        setBuyer(initialValues); //vacío el formulario
-        clear(); //vacío el carrito
+  
+    try {
+      const db = getFirestore();
+      const orderCollection = collection(db, "orders");
+  
+      const docRef = await addDoc(orderCollection, order);
+      const orderId = docRef.id;
+  
+      if (orderId) {
+        alert("Su orden fue procesada con éxito. ID: " + orderId);
+        setBuyer(initialValues);
+        clear();
+        navigate(`/checkout/${orderId}`);
+      } else {
+        console.error("No se pudo obtener el ID de la orden");
       }
-    });
+    } catch (error) {
+      console.error("Error al procesar la orden:", error);
+    }
   };
+  
+  
+
   if (!items.length) {
     return (
       <Container className="mt-4">
@@ -73,7 +83,7 @@ export const Cart = (props) => {
   return (
     <Container className="mt-4">
       <h1>{props.greeting}</h1>
-      <Table striped="columns">
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>Nombre</th>
@@ -89,7 +99,7 @@ export const Cart = (props) => {
               <td>{item.modelo}</td>
               <td className="text-center">{item.quantity}</td>
               <td>
-                <img src={item.IMAGEN.DESTACADA} width={300} />
+                <img src={item.IMAGEN.DESTACADA} width={300} alt={item.modelo} />
               </td>
               <td>$ {item.precio.toLocaleString()}</td>
               <td className="text-center" onClick={() => onRemove(item.id)}>
@@ -116,7 +126,15 @@ export const Cart = (props) => {
       </Table>
       <Button onClick={clear}>Vaciar Carrito</Button>
       <hr />
-      <OrderForm buyer={buyer} handleChange={handleChange} sendOrder={sendOrder} />
+      <br />
+      <h3>Por favor, completa el formulario para confirmar la compra:</h3>
+      <br />
+      <OrderForm
+        buyer={buyer}
+        handleChange={handleChange}
+        sendOrder={sendOrder}
+      />
     </Container>
   );
 };
+

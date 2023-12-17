@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -17,9 +18,11 @@ const firebaseConfig = {
 // document.body.classList.add('bg-dark', 'bg-gradient');
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
+export { db }; // Exporta la instancia de la base de datos
