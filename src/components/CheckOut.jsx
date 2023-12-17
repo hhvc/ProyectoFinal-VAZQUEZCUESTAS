@@ -6,7 +6,6 @@ import { doc, getDoc } from "firebase/firestore";
 const CheckOut = ({ greeting, db }) => {
   const { id } = useParams();
   const orderId = id;
-  console.log("orderId al ingresar a Checkout:", orderId);
 
   const [buyerInfo, setBuyerInfo] = useState({
     name: "",
