@@ -9,8 +9,11 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 export const authContext = createContext();
+
+const db = getFirestore();
 
 export const useAuth = () => {
   const context = useContext(authContext);
@@ -34,6 +37,15 @@ export function AuthProvider({ children }) {
     return () => suscribed();
   }, []);
 
+  const completarRegistro = async (docuRef, data) => {
+    try {
+      await setDoc(docuRef, data, { merge: true });
+      console.log("Registro completado con éxito");
+    } catch (error) {
+      console.error("Error al completar el registro:", error);
+    }
+  };
+
   const register = async (email, password) => {
     const response = await createUserWithEmailAndPassword(
       auth,
@@ -41,7 +53,11 @@ export function AuthProvider({ children }) {
       password
     );
     console.log(response);
+    const docuRef = doc(db, `users/${response.user.uid}`);
+
+    completarRegistro(docuRef, { correo: email, rol: "customer" });
   };
+
   const login = async (email, password) => {
     const response = await signInWithEmailAndPassword(auth, email, password);
     console.log(response);
