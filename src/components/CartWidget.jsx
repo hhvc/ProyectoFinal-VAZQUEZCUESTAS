@@ -12,7 +12,7 @@ export const CartWidget = () => {
   );
 
   return (
-    <Link to="/cart">
+    <Link to="/cart" className="d-flex align-items-center m-3">
       <img src={cart} alt="carrito de compras" width={30} />
       <span>{total}</span>
     </Link>

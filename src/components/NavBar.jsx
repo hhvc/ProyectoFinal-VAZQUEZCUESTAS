@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import logo from "../assets/logoCarsas.svg";
+import logo from "../assets/LogoSuperAutoTransparente2.png";
 import { CartWidget } from "./CartWidget";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -11,7 +11,7 @@ function NavBar() {
       <Container>
         <Navbar.Brand>
           <NavLink to="" className="navbar-brand">
-            <img src={logo} alt="Logo" width="64" height="64" />
+            <img src={logo} alt="Logo" width="200" />
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

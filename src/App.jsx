@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ItemListContainer } from "./components/ItemListContainer";
 import { CartProvider } from "./contexts/CartContext";
 import NavBar from "./components/NavBar";
+import Map from "./components/Map";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import { Error404 } from "./components/Error404";
@@ -53,6 +54,7 @@ function App() {
             />
             <Route path="*" element={<Error404 />} />
           </Routes>
+          <Map />
           <Footer />
         </BrowserRouter>
       </CartProvider>
