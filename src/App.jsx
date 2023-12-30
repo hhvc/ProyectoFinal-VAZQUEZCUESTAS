@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import Map from "./components/Map";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
+import ProfileEditor from "./components/ProfileEditor";
 import { Error404 } from "./components/Error404";
 import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { Cart } from "./components/Cart";
@@ -52,6 +53,8 @@ function App() {
                 <Login registro={true} greeting="Formulario de registro" />
               }
             />
+            <Route path="/perfil" element={<ProfileEditor />} />
+
             <Route path="*" element={<Error404 />} />
           </Routes>
           <Map />

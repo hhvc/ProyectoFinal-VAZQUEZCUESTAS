@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 export const authContext = createContext();
 
@@ -25,15 +25,29 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
+  const [userRole, setUserRole] = useState(null);
   useEffect(() => {
-    const suscribed = onAuthStateChanged(auth, (currentUser) => {
+    const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
-        console.log("El usuario no está logueado");
         setUser("");
+        setUserRole(null);
       } else {
         setUser(currentUser);
+
+        //Obtén el nombre del usuario desde Firestore, de no existir en Auth de Firebase
+        
+
+        // Obtén el rol del usuario desde Firestore
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          setUserRole(userData.rol);
+        }
       }
     });
+
     return () => suscribed();
   }, []);
 
@@ -73,7 +87,7 @@ export function AuthProvider({ children }) {
 
   return (
     <authContext.Provider
-      value={{ register, login, loginWithGoogle, logout, user }}
+      value={{ register, login, loginWithGoogle, logout, user, userRole }}
     >
       {children}
     </authContext.Provider>

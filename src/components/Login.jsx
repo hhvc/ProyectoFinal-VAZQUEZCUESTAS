@@ -30,7 +30,6 @@ const Login = ({ registro }) => {
       } else if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
         alert("El correo o la contraseña son incorrectos.");
       } else {
-        console.error("Error de autenticación:", error);
         alert("Error al intentar autenticarse. Por favor, inténtelo de nuevo más tarde.");
       }
     }
