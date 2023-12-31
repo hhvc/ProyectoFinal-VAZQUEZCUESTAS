@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
+import ReCaptcha from './ReCaptcha';
 
 const ProfileEditor = () => {
   const [showAlert, setShowAlert] = useState(false);
@@ -155,6 +156,7 @@ const ProfileEditor = () => {
                   onChange={handleInputChange}
                 />
               </div>
+              <ReCaptcha />
               <button type="submit" className="btn btn-primary">
                 Guardar Cambios
               </button>
