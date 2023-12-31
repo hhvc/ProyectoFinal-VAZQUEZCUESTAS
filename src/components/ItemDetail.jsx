@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export const ItemDetail = ({ item }) => {
   const { onAdd } = useContext(CartContext);
-  const { user } = useAuth();
+  const { user, userRole } = useAuth();
 
   const add = (quantity) => {
     onAdd(item, quantity);
@@ -20,7 +20,7 @@ export const ItemDetail = ({ item }) => {
       <img src={item.IMAGEN.DESTACADA} width={400} />
       <p>Año: {item.año}</p>
       <p>Kms: {item.kms}</p>
-      {user && (user.rol === "VENDEDOR" || user.rol === "ADMINISTRADOR") && (
+      {userRole && (userRole === "VENDEDOR" || userRole === "ADMINISTRADOR") && (
         <h3>Precio: ${item.precio.toLocaleString()}</h3>
       )}
       <h4>Stock: {item.STOCK}</h4>

@@ -7,9 +7,13 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import Alert from "./Alert";
 
 const ProfileEditor = () => {
+  const [showAlert, setShowAlert] = useState(false);
   const auth = useAuth();
+  const navigate = useNavigate();
   const db = getFirestore();
   const [userData, setUserData] = useState({
     nombre: "",
@@ -30,7 +34,7 @@ const ProfileEditor = () => {
           if (userDocSnapshot.exists()) {
             setUserData(userDocSnapshot.data());
           } else {
-            // El documento del usuario no existe en Firestore.
+            // Si el documento del usuario no existe en Firestore.
             // Creamos un nuevo documento con el rol "customer".
             await setDoc(userDocRef, { rol: "customer" }, { merge: true });
             console.log("Nuevo documento de usuario creado en Firestore");
@@ -66,6 +70,14 @@ const ProfileEditor = () => {
       const userDocRef = doc(db, "users", auth.user.uid);
       await updateDoc(userDocRef, userData);
       console.log("Datos actualizados con éxito en Firestore");
+
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+        // Redirigir al usuario al home
+        navigate("/home");
+      }, 2000);
+      return () => clearTimeout(timeout);
     } catch (error) {
       console.error("Error al actualizar datos en Firestore:", error);
     }
@@ -150,6 +162,13 @@ const ProfileEditor = () => {
           </div>
         </div>
       </div>
+      {showAlert && (
+        <Alert
+          message="Datos guardados con éxito"
+          type="success"
+          onClose={() => setShowAlert(false)}
+        />
+      )}
     </div>
   );
 };

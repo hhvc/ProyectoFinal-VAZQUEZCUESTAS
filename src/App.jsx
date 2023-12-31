@@ -12,6 +12,8 @@ import { Cart } from "./components/Cart";
 import CheckOut from "./components/CheckOut";
 import { db } from "./main"; // Importa la instancia de la base de datos
 import { AuthProvider } from "./contexts/AuthContext";
+import SellerDashboard from './components/SellerDashboard';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
   return (
@@ -54,7 +56,8 @@ function App() {
               }
             />
             <Route path="/perfil" element={<ProfileEditor />} />
-
+            <Route path="/dashboardvendedor" element={<SellerDashboard />} />
+            <Route path="/admindashboard" element={<AdminDashboard />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
           <Map />

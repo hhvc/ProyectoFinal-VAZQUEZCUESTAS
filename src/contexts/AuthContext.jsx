@@ -26,24 +26,24 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState(null);
+  const [userName, setUserName] = useState(null)
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
         setUser("");
         setUserRole(null);
+        setUserName(null);
       } else {
         setUser(currentUser);
 
-        //Obtén el nombre del usuario desde Firestore, de no existir en Auth de Firebase
-        
-
-        // Obtén el rol del usuario desde Firestore
+        // Obtén el rol y nombre del usuario desde Firestore
         const userDocRef = doc(db, "users", currentUser.uid);
         const userDocSnapshot = await getDoc(userDocRef);
 
         if (userDocSnapshot.exists()) {
           const userData = userDocSnapshot.data();
           setUserRole(userData.rol);
+          setUserName(userData.nombre)
         }
       }
     });
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
 
   return (
     <authContext.Provider
-      value={{ register, login, loginWithGoogle, logout, user, userRole }}
+      value={{ register, login, loginWithGoogle, logout, user, userRole, userName }}
     >
       {children}
     </authContext.Provider>
