@@ -29,7 +29,7 @@ const SellerDashboard = () => {
       {/* Dar de alta automotor */}
       <section>
         <h2>Dar de alta automotor</h2>
-        <Link to="/carsas/formautomotor" className="btn btn-primary">
+        <Link to="/vehicleform" className="btn btn-primary">
           Nuevo Automotor
         </Link>
       </section>

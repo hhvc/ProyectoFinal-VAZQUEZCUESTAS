@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
+import ImgXDefecto from "../assets/LogoSuperAuto1Transparente.svg" 
 
 
 export const Item = ({ item }) => {
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={item.IMAGEN.DESTACADA} />
+      <Card.Img variant="top" src={item.IMAGEN.DESTACADA || ImgXDefecto} />
       <Card.Body>
         <Card.Title>{item.marca}</Card.Title>
         <Card.Text>{item.modelo}</Card.Text>

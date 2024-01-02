@@ -6,14 +6,15 @@ import Map from "./components/Map";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import ProfileEditor from "./components/ProfileEditor";
+import VehicleForm from "./components/VehicleForm";
 import { Error404 } from "./components/Error404";
 import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { Cart } from "./components/Cart";
 import CheckOut from "./components/CheckOut";
 import { db } from "./main"; // Importa la instancia de la base de datos
 import { AuthProvider } from "./contexts/AuthContext";
-import SellerDashboard from './components/SellerDashboard';
-import AdminDashboard from './components/AdminDashboard';
+import SellerDashboard from "./components/SellerDashboard";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
   return (
@@ -53,6 +54,15 @@ function App() {
               path="/registro"
               element={
                 <Login registro={true} greeting="Formulario de registro" />
+              }
+            />
+            <Route
+              path="/vehicleform"
+              element={
+                <VehicleForm
+                  registro={true}
+                  greeting="Formulario para carga de automotores"
+                />
               }
             />
             <Route path="/perfil" element={<ProfileEditor />} />
