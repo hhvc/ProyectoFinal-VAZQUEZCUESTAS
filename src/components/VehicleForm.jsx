@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Alert from "./Alert";
 
 const VehicleForm = () => {
+  const storage = getStorage();
   const [showAlert, setShowAlert] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const auth = useAuth();
   const db = getFirestore();
+
+  const atributosAutomotor = [
+    { nombre: "marca", tipo: "text", label: "Marca" },
+    { nombre: "modelo", tipo: "text", label: "Modelo" },
+    { nombre: "version", tipo: "text", label: "Versión" },
+    { nombre: "año", tipo: "number", label: "Año" },
+    { nombre: "dominio", tipo: "text", label: "Patente/ dominio" },
+    { nombre: "combustible", tipo: "text", label: "Tipo de Combustible" },
+    { nombre: "kms", tipo: "number", label: "Kms" },
+    { nombre: "precio", tipo: "text", label: "precio" },
+    // Agrega más atributos según sea necesario
+  ];
+
   const [vehicleData, setVehicleData] = useState({
     STOCK: 0,
-    año: 0,
     combustible: "",
     destacado: false,
     kms: 0,
-    marca: "",
-    modelo: "",
     precio: 0,
     version: "",
+    CONCESIONARIO: "SUPERAUTO",
+    DOMINIO: "",
+    USERCARGA: "",
     IMAGEN: {
       DESTACADA: "",
       FRENTE: "",
@@ -48,7 +62,7 @@ const VehicleForm = () => {
     }
 
     try {
-      const storageRef = ref(storage, selectedFile.name);
+      const storageRef = ref(storage, `vehiclesimg/${selectedFile.name}`);
       await uploadBytes(storageRef, selectedFile);
       console.log("Terminó la descarga...");
 
@@ -63,7 +77,7 @@ const VehicleForm = () => {
         },
       }));
 
-      setSelectedFile(null); // Limpiar el archivo seleccionado después de la carga
+      setSelectedFile(null);
     } catch (error) {
       console.error("Error al subir archivo:", error);
     }
@@ -96,47 +110,23 @@ const VehicleForm = () => {
           <div className="card card-body shadow">
             <form onSubmit={handleSubmit}>
               <h3 className="title">Alta de Automotor</h3>
-              <div className="mb-3">
-                <label htmlFor="marca" className="form-label">
-                  Marca
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="marca"
-                  name="marca"
-                  value={vehicleData.marca}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="modelo" className="form-label">
-                  Modelo
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="modelo"
-                  name="modelo"
-                  value={vehicleData.modelo}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* Otros campos del formulario */}
-              <div className="mb-3">
-                <label htmlFor="precio" className="form-label">
-                  Precio
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="precio"
-                  name="precio"
-                  value={vehicleData.precio}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* Campos para subir imágenes */}
+
+              {atributosAutomotor.map((atributo) => (
+                <div className="mb-3" key={atributo.nombre}>
+                  <label htmlFor={atributo.nombre} className="form-label">
+                    {atributo.label}
+                  </label>
+                  <input
+                    type={atributo.tipo}
+                    className="form-control"
+                    id={atributo.nombre}
+                    name={atributo.nombre}
+                    value={vehicleData[atributo.nombre]}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              ))}
+
               <label htmlFor="imagenDestacada" className="form-label">
                 Imagen Destacada
               </label>
@@ -144,15 +134,60 @@ const VehicleForm = () => {
                 type="file"
                 accept="image/*"
                 id="imagenDestacada"
-                onChange={(e) =>
-                  handleImageUpload(e, "DESTACADA")
-                }
+                onChange={(e) => handleImageUpload(e, "DESTACADA")}
               />
               <button type="button" onClick={subirArchivo}>
                 Subir Imagen
               </button>
-              {/* Otros campos de imagen */}
-              {/* ... */}
+              <label htmlFor="imagenFrente" className="form-label">
+                Imagen Frente
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imagenDestacada"
+                onChange={(e) => handleImageUpload(e, "FRENTE")}
+              />
+              <button type="button" onClick={subirArchivo}>
+                Subir Imagen
+              </button>
+              <label htmlFor="imagenInterior" className="form-label">
+                Imagen Interior
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imagenInterior"
+                onChange={(e) => handleImageUpload(e, "INTERIOR")}
+              />
+              <button type="button" onClick={subirArchivo}>
+                Subir Imagen
+              </button>
+              <label htmlFor="imagenLateral" className="form-label">
+                Imagen Lateral
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imagenDestacada"
+                onChange={(e) => handleImageUpload(e, "LATERAL")}
+              />
+              <button type="button" onClick={subirArchivo}>
+                Subir Imagen
+              </button>
+              <label htmlFor="imagenTrasera" className="form-label">
+                Imagen Trasera
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="imagenDestacada"
+                onChange={(e) => handleImageUpload(e, "TRASERA")}
+              />
+              <button type="button" onClick={subirArchivo}>
+                Subir Imagen
+              </button>
+
               <button type="submit" className="btn btn-primary">
                 Guardar Automotor
               </button>
@@ -172,3 +207,4 @@ const VehicleForm = () => {
 };
 
 export default VehicleForm;
+
