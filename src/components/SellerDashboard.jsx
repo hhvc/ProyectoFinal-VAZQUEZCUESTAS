@@ -21,7 +21,7 @@ const SellerDashboard = () => {
       {/* Dar de alta cliente */}
       <section>
         <h2>Dar de alta cliente</h2>
-        <Link to="/carsas/formclientes" className="btn btn-primary">
+        <Link to="/formclientes" className="btn btn-primary">
           Nuevo Cliente
         </Link>
       </section>
