@@ -77,7 +77,7 @@ function NavBar() {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="mb-4">
       <Container>
         <Navbar.Brand>
           <NavLink to="" className="navbar-brand">

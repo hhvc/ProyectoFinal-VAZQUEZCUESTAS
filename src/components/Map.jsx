@@ -1,9 +1,10 @@
 import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-const Map = () => {
-  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const libraries = ["places"]; // Definir las bibliotecas fuera del componente
 
+const Map = () => {
   return (
     <div className="container col-xxl-8 px-4 py-5">
       <div className="row">
@@ -28,7 +29,10 @@ const Map = () => {
 //         </div> */}
         </div>
         <div className="col-lg-6">
-          <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={["places"]}>
+          <LoadScript
+            googleMapsApiKey={googleMapsApiKey}
+            libraries={libraries}
+          >
             <GoogleMap
               id="google-map"
               mapContainerStyle={{
@@ -46,7 +50,7 @@ const Map = () => {
                   lat: -31.3848841,
                   lng: -64.2072695,
                 }}
-                title="Super Auto - Suc 1"
+                title="Super Auto"
               />
             </GoogleMap>
           </LoadScript>

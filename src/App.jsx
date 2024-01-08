@@ -2,11 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ItemListContainer } from "./components/ItemListContainer";
 import { CartProvider } from "./contexts/CartContext";
 import NavBar from "./components/NavBar";
-import Map from "./components/Map";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import ProfileEditor from "./components/ProfileEditor";
 import VehicleForm from "./components/VehicleForm";
+import VehicleList from "./components/VehicleList";
 import { Error404 } from "./components/Error404";
 import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { Cart } from "./components/Cart";
@@ -43,7 +43,6 @@ function App() {
               path="/checkout/:id"
               element={<CheckOut greeting="Confirmación de compras" db={db} />}
             />
-
             <Route
               path="/login"
               element={
@@ -65,12 +64,20 @@ function App() {
                 />
               }
             />
+            <Route
+              path="/vehiclelist"
+              element={
+                <VehicleList
+                  registro={true}
+                  greeting="Listado de automotores disponibles"
+                />
+              }
+            />
             <Route path="/perfil" element={<ProfileEditor />} />
             <Route path="/dashboardvendedor" element={<SellerDashboard />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
-          <Map />
           <Footer />
         </BrowserRouter>
       </CartProvider>
