@@ -44,7 +44,7 @@ export const ItemListContainer = (props) => {
     <>
       <Container className="mt-4">
         <h1>{props.greeting}</h1>
-        <div className="row">
+        <div>
           {items ? <ItemList items={items} /> : <>Loading ...</>}
         </div>
       </Container>

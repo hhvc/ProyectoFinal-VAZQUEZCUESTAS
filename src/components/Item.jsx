@@ -5,7 +5,7 @@ import ImgXDefecto from "../assets/LogoSuperAuto1Transparente.svg"
 
 export const Item = ({ item }) => {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "18rem" }} className="mx-auto m-2">
       <Card.Img variant="top" src={item.IMAGEN.DESTACADA || ImgXDefecto} />
       <Card.Body>
         <Card.Title>{item.marca}</Card.Title>

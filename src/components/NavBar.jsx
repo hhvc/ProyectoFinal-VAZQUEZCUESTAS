@@ -96,6 +96,9 @@ function NavBar() {
             <NavLink to="category/destacados" className="nav-link">
               Destacados
             </NavLink>
+            <NavLink to="consigna" className="nav-link">
+              Vendé tu auto
+            </NavLink>
           </Nav>
         </Navbar.Collapse>
         <NavDropdown

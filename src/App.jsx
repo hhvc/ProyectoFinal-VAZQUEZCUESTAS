@@ -15,6 +15,7 @@ import { db } from "./main"; // Importa la instancia de la base de datos
 import { AuthProvider } from "./contexts/AuthContext";
 import SellerDashboard from "./components/SellerDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import { Consigna } from "./components/Consigna";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
                 />
               }
             />
+            <Route path="/consigna" element={<Consigna />} />
             <Route path="/perfil" element={<ProfileEditor />} />
             <Route path="/dashboardvendedor" element={<SellerDashboard />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />

@@ -5,105 +5,6 @@ import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
-    // <footer className="footer ftmobile" style={{ backgroundColor: "#0E0E0E" }}>
-    //   <Container className="only-xs-text-justify-center">
-    //     <div className="solid-section sol-footer">
-    //       <div className="row cols-md">
-    //         <div className="sm-col-8 sm-push-1 col-marb-20">
-    //           <div className="row cols-md">
-    //             <div className="sm-col-4">
-    //               <div
-    //                 className="footer-title alt-color text-upper"
-    //                 style={{ color: "#fff" }}
-    //               >
-    //                 ubicación
-    //               </div>
-    //               <div className="footer-text" style={{ color: "#fff" }}>
-    //                 Av. Monseñor Pablo Cabrera 2213
-    //                 <br />
-    //                 CP: 5000
-    //                 <br />
-    //                 Córdoba - Argentina
-    //               </div>
-    //             </div>
-    //             <div className="sm-col-4">
-    //               <div
-    //                 className="footer-title alt-color text-upper"
-    //                 style={{ color: "#fff" }}
-    //               >
-    //                 Horarios
-    //               </div>
-    //               <div className="footer-text" style={{ color: "#fff" }}>
-    //                 Lunes a Viernes de 09:00 - 18:00 hs
-    //               </div>
-    //               <div className="footer-text" style={{ color: "#fff" }}>
-    //                 Sábados de 09:00 - 13:00 hs
-    //               </div>
-    //             </div>
-    //             <div className="sm-col-4">
-    //               <div
-    //                 className="footer-title alt-color text-upper"
-    //                 style={{ color: "#fff" }}
-    //               >
-    //                 Socials
-    //               </div>
-    //               <div className="cols-list socials cols-sm inline-block">
-    //                 <a
-    //                   href="https://www.facebook.com/superautoautomotores"
-    //                   target="_blank"
-    //                   className="list-item"
-    //                   style={{ color: "#fff" }}
-    //                 >
-    //                   <i className="fab fa-facebook-f" aria-hidden="true"></i>
-    //                 </a>
-    //                 <a
-    //                   href="https://www.instagram.com/automotoressuperauto/"
-    //                   target="_blank"
-    //                   className="list-item"
-    //                   style={{ color: "#fff" }}
-    //                 >
-    //                   <i className="fab fa-instagram" aria-hidden="true"></i>
-    //                 </a>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //         <div className="sm-col-4 col-marb-40">
-    //           <div className="footer-logo text-center">
-    //             <img border="0" alt="Super Auto" src={logo} width={300} />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="footer-copyrights text-center top-separator ins-md">
-    //       <div className="cols-list pull-left cols-md text-center">
-    //         <div className="list-item limobile" style={{ color: "#fff" }}>
-    //           <span className="info-icon">
-    //             <i className="fas fa-envelope" aria-hidden="true"></i>
-    //           </span>{" "}
-    //           marcial_guerrero@yahoo.com.ar
-    //         </div>
-    //         <a
-    //           href="tel:08003455660"
-    //           className="list-item limobile"
-    //           style={{ color: "#fff" }}
-    //         >
-    //           <span className="info-icon">
-    //             <i className="fas fa-phone"></i>
-    //           </span>
-    //           0 351 489-7694
-    //         </a>
-    //       </div>
-    //       <div className="cols-list pull-right cols-md socials">
-    //         <div className="list-item" style={{ color: "#fff" }}>
-    //           © 2023 <b>ono.ar</b>. Todos los derechos reservados.
-    //         </div>
-    //       </div>
-    //       <br />
-    //     </div>
-    //   </Container>
-    // </footer>
-
     <div className="container">
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div className="col-md-4 d-flex align-items-center">
@@ -150,7 +51,7 @@ function Footer() {
         </ul>
         <div className="col-md-4 d-flex align-items-center">
           <span className="mb-3 mb-md-0 text-muted">
-            &copy; 2023 Web APP development by https://ono.ar
+            &copy; 2024 Web APP development by https://ono.ar
           </span>
         </div>
       </footer>
