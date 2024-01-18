@@ -10,6 +10,14 @@ import { Button, Table } from "react-bootstrap";
 
 const VehicleList = () => {
   const { userRole } = useAuth();
+  // Verifica si el usuario tiene el rol necesario
+  if (!["VENDEDOR", "SUPERVISOR", "ADMINISTRADOR"].includes(userRole)) {
+    return (
+      <div className="container">
+        <h3>No tienes permisos para acceder a esta página.</h3>
+      </div>
+    );
+  }
   const db = getFirestore();
   const [vehicles, setVehicles] = useState([]);
   const [localVehicles, setLocalVehicles] = useState([]);
@@ -294,7 +302,7 @@ const VehicleList = () => {
               <td>{vehicle.marca}</td>
               <td>{vehicle.modelo}</td>
               <td>{vehicle.version}</td>
-              <td>{vehicle.año}</td>
+              <td>{vehicle.YEAR}</td>
               <td>{vehicle.dominio}</td>
               <td>{vehicle.combustible}</td>
               <td>{vehicle.kms}</td>

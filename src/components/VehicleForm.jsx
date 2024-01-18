@@ -8,15 +8,23 @@ const VehicleForm = () => {
   const storage = getStorage();
   const [showAlert, setShowAlert] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const auth = useAuth();
+  const { userRole } = useAuth();
+  // Verifica si el usuario tiene el rol necesario
+  if (!["VENDEDOR", "SUPERVISOR", "ADMINISTRADOR"].includes(userRole)) {
+    return (
+      <div className="container">
+        <h3>No tienes permisos para acceder a esta página.</h3>
+      </div>
+    );
+  }
   const db = getFirestore();
 
   const atributosAutomotor = [
     { nombre: "marca", tipo: "text", label: "Marca" },
     { nombre: "modelo", tipo: "text", label: "Modelo" },
     { nombre: "version", tipo: "text", label: "Versión" },
-    { nombre: "año", tipo: "number", label: "Año" },
-    { nombre: "dominio", tipo: "text", label: "Patente/ dominio" },
+    { nombre: "YEAR", tipo: "number", label: "Año" },
+    { nombre: "DOMINIO", tipo: "text", label: "Patente/ dominio" },
     { nombre: "combustible", tipo: "text", label: "Tipo de Combustible" },
     { nombre: "kms", tipo: "number", label: "Kms" },
     { nombre: "precio", tipo: "text", label: "precio" },
@@ -207,4 +215,3 @@ const VehicleForm = () => {
 };
 
 export default VehicleForm;
-

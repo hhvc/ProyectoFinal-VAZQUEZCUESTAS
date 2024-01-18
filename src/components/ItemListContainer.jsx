@@ -49,20 +49,6 @@ export const ItemListContainer = (props) => {
         </div>
       </Container>
       <Map />
-      {/* <Container className="mt-4">
-        <h1>{props.greeting}</h1>
-        <div className="row">
-          {items ? (
-            items.map((item) => (
-              <div key={item.id} className="col-md-2 col-8 mb-3">
-                <Item item={item} />
-              </div>
-            ))
-          ) : (
-            <>Loading ...</>
-          )}
-        </div>
-      </Container> */}
     </>
   );
 };

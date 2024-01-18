@@ -16,6 +16,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import SellerDashboard from "./components/SellerDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import { Consigna } from "./components/Consigna";
+import MassVehicleUpload from "./components/MassVehicleUpload";
 
 function App() {
   return (
@@ -62,6 +63,15 @@ function App() {
                 <VehicleForm
                   registro={true}
                   greeting="Formulario para carga de automotores"
+                />
+              }
+            />
+            <Route
+              path="/massivevehicleform"
+              element={
+                <MassVehicleUpload
+                  registro={true}
+                  greeting="Formulario para actualizar lisatado de automotores en forma masiva"
                 />
               }
             />

@@ -1,7 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const SellerDashboard = () => {
+  const { userRole } = useAuth();
+  // Verifica si el usuario tiene el rol necesario
+  if (!["VENDEDOR", "SUPERVISOR", "ADMINISTRADOR"].includes(userRole)) {
+    return (
+      <div className="container">
+        <h3>No tienes permisos para acceder a esta página.</h3>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <h1>Tablero para Vendedores</h1>
@@ -25,14 +36,14 @@ const SellerDashboard = () => {
           Nuevo Cliente
         </Link>
       </section>
-
-      {/* Dar de alta automotor */}
+      {/* Listar automotores */}
       <section>
         <h2>Listar automotores</h2>
         <Link to="/vehiclelist" className="btn btn-primary">
           Ver Listado
         </Link>
       </section>
+      {/* Dar de alta automotor */}
       <section>
         <h2>Dar de alta automotor</h2>
         <Link to="/vehicleform" className="btn btn-primary">
