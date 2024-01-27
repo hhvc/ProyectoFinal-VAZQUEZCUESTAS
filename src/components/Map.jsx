@@ -1,10 +1,41 @@
-import React from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import React, { useEffect } from "react";
 
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const libraries = ["places"]; // Definir las bibliotecas fuera del componente
+const libraries = ["places"];
 
 const Map = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=${libraries.join(",")}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      // Inicializa el mapa después de que se cargue el script
+      initMap();
+    };
+
+    return () => {
+      // Remueve el script al desmontar el componente
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  const initMap = () => {
+    const map = new window.google.maps.Map(document.getElementById("google-map"), {
+      center: { lat: -31.3848841, lng: -64.2072695 },
+      zoom: 12,
+    });
+
+    // Agrega el marcador para resaltar el comercio
+    new window.google.maps.Marker({
+      position: { lat: -31.3848841, lng: -64.2072695 },
+      map, // Asocia el marcador con el mapa
+      title: "Super Auto",
+    });
+  };
+
   return (
     <div className="container col-xxl-8 px-4 py-5">
       <div className="row">
@@ -16,44 +47,9 @@ const Map = () => {
           <h4>Horarios</h4>
           <p>Lunes a Viernes de 09:00 - 18:00 hs</p>
           <p>Sábados de 09:00 - 13:00 hs</p>
-          {/* <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-//           <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">
-//             Primary
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-outline-secondary btn-lg px-4"
-//           >
-//             Default
-//           </button>
-//         </div> */}
         </div>
         <div className="col-lg-6">
-          <LoadScript
-            googleMapsApiKey={googleMapsApiKey}
-            libraries={libraries}
-          >
-            <GoogleMap
-              id="google-map"
-              mapContainerStyle={{
-                height: "450px",
-                width: "100%", // Ajusta el ancho al 100% del contenedor padre
-              }}
-              center={{
-                lat: -31.3848841,
-                lng: -64.2072695,
-              }}
-              zoom={15}
-            >
-              <Marker
-                position={{
-                  lat: -31.3848841,
-                  lng: -64.2072695,
-                }}
-                title="Super Auto"
-              />
-            </GoogleMap>
-          </LoadScript>
+          <div id="google-map" style={{ height: "450px", width: "100%" }}></div>
         </div>
       </div>
     </div>
@@ -61,3 +57,4 @@ const Map = () => {
 };
 
 export default Map;
+

@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { saveAs } from "file-saver";
-import { CsvWriter } from "filefy";
+// import { CsvWriter } from "filefy";
 import Papa from "papaparse";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -33,7 +33,8 @@ function autoId() {
 
 const MassVehicleUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { userRole } = useAuth();
+  const { userRole, user } = useAuth();
+  const db = getFirestore();
 
   // Verifica si el usuario tiene el rol necesario
   if (!["ADMINISTRADOR"].includes(userRole)) {
@@ -59,6 +60,17 @@ const MassVehicleUpload = () => {
     }
 
     try {
+      let userName = "";
+      // Obtener el nombre y apellido del usuario desde Firestore
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          userName = `${userData.nombre || ""} ${userData.apellido || ""}`;
+        }
+      }
+
       const fileReader = new FileReader();
       fileReader.readAsText(selectedFile);
 
@@ -69,7 +81,6 @@ const MassVehicleUpload = () => {
           complete: async (result) => {
             console.log("Datos de vehículos:", result.data);
 
-            const db = getFirestore();
             const automotoresCollection = collection(db, "automotores");
 
             // Limpiar los datos eliminando propiedades no deseadas
@@ -109,9 +120,10 @@ const MassVehicleUpload = () => {
                 const vehicleData = {
                   ...vehicleWithoutImages,
                   IMAGEN: imageMap,
-                  USUARIOCARGA: user ? user.uid : "", // Asegúrate de manejar el caso en el que user sea null o undefined
+                  USUARIOCARGA: userName || "",
                   FECHACARGA: formattedDate,
                   FECHAMODIFICACION: formattedDate,
+                  ESTADOACTIVO: false,
                 };
 
                 if (docSnap.exists()) {
@@ -140,7 +152,7 @@ const MassVehicleUpload = () => {
   };
 
   const handleDownload = async () => {
-    const db = getFirestore();
+
     const automotoresCollection = collection(db, "automotores");
 
     try {
@@ -152,11 +164,11 @@ const MassVehicleUpload = () => {
         const vehicleWithIdAndUrls = {
           id: doc.id, // Agrega el ID del documento
           ...vehicleData,
-          imageUrl1: vehicleData.IMAGEN.DESTACADA,
-          imageUrl2: vehicleData.IMAGEN.FRENTE,
-          imageUrl3: vehicleData.IMAGEN.INTERIOR,
-          imageUrl4: vehicleData.IMAGEN.LATERAL,
-          imageUrl5: vehicleData.IMAGEN.TRASERA,
+          IMAGEN_DESTACADA: vehicleData.IMAGEN.DESTACADA,
+          IMAGEN_FRENTE: vehicleData.IMAGEN.FRENTE,
+          IMAGEN_INTERIOR: vehicleData.IMAGEN.INTERIOR,
+          IMAGEN_LATERAL: vehicleData.IMAGEN.LATERAL,
+          IMAGEN_TRASERA: vehicleData.IMAGEN.TRASERA,
         };
         vehicles.push(vehicleWithIdAndUrls);
       });
