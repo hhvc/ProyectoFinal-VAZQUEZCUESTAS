@@ -48,7 +48,7 @@ export const ItemListContainer = (props) => {
           {items ? <ItemList items={items} /> : <>Loading ...</>}
         </div>
       </Container>
-      <Map />
+      {/* <Map /> */}
     </>
   );
 };

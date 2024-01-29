@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const libraries = ["places"];
@@ -7,8 +7,6 @@ const googleMapsScript = `https://maps.googleapis.com/maps/api/js?key=${googleMa
 )}`;
 
 const Map = () => {
-  const [mapLoaded, setMapLoaded] = useState(false);
-
   useEffect(() => {
     const script = document.createElement("script");
     script.src = googleMapsScript;
@@ -16,28 +14,27 @@ const Map = () => {
     script.async = true;
 
     script.onload = () => {
-      setMapLoaded(true);
+      initMap();
     };
 
     script.onerror = () => {
       console.error("Error loading Google Maps script.");
-      setMapLoaded(false); // Set mapLoaded to false in case of an error
     };
 
     document.head.appendChild(script);
 
     return () => {
+      // Cleanup if component unmounts
       document.head.removeChild(script);
     };
   }, []);
 
-  useEffect(() => {
-    if (mapLoaded) {
-      initMap();
-    }
-  }, [mapLoaded]);
-
   const initMap = () => {
+    if (!window.google || !window.google.maps) {
+      console.error("Google Maps API not loaded");
+      return;
+    }
+
     const map = new window.google.maps.Map(
       document.getElementById("google-map"),
       {
