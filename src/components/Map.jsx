@@ -1,37 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const libraries = ["places"];
+const googleMapsScript = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=${libraries.join(
+  ","
+)}`;
 
 const Map = () => {
+  const [mapLoaded, setMapLoaded] = useState(false);
+
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=${libraries.join(",")}&callback=initMap`;
-    script.async = true;
+    script.src = googleMapsScript;
     script.defer = true;
-    document.head.appendChild(script);
+    script.async = true;
 
     script.onload = () => {
-      // Inicializa el mapa después de que se cargue el script
-      initMap();
+      setMapLoaded(true);
     };
 
+    script.onerror = () => {
+      console.error("Error loading Google Maps script.");
+      setMapLoaded(false); // Set mapLoaded to false in case of an error
+    };
+
+    document.head.appendChild(script);
+
     return () => {
-      // Remueve el script al desmontar el componente
       document.head.removeChild(script);
     };
   }, []);
 
-  const initMap = () => {
-    const map = new window.google.maps.Map(document.getElementById("google-map"), {
-      center: { lat: -31.3848841, lng: -64.2072695 },
-      zoom: 12,
-    });
+  useEffect(() => {
+    if (mapLoaded) {
+      initMap();
+    }
+  }, [mapLoaded]);
 
-    // Agrega el marcador para resaltar el comercio
+  const initMap = () => {
+    const map = new window.google.maps.Map(
+      document.getElementById("google-map"),
+      {
+        center: { lat: -31.3848841, lng: -64.2072695 },
+        zoom: 12,
+      }
+    );
+
     new window.google.maps.Marker({
       position: { lat: -31.3848841, lng: -64.2072695 },
-      map, // Asocia el marcador con el mapa
+      map,
       title: "Super Auto",
     });
   };
@@ -57,4 +74,3 @@ const Map = () => {
 };
 
 export default Map;
-

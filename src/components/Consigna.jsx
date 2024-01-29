@@ -1,7 +1,6 @@
-
 import { Container } from "react-bootstrap";
 import Map from "./Map";
-import VehicleForm from "./VehicleForm";
+import VehicleForm from "./vehicles/VehicleForm";
 
 export const Consigna = () => {
   return (

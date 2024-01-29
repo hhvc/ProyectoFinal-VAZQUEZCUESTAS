@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import Alert from "./Alert";
+import Alert from "../Alert";
 
 const VehicleForm = () => {
   const storage = getStorage();
@@ -153,7 +153,7 @@ const VehicleForm = () => {
               <input
                 type="file"
                 accept="image/*"
-                id="imagenDestacada"
+                id="imagenFrente"
                 onChange={(e) => handleImageUpload(e, "FRENTE")}
               />
               <button type="button" onClick={subirArchivo}>
@@ -177,7 +177,7 @@ const VehicleForm = () => {
               <input
                 type="file"
                 accept="image/*"
-                id="imagenDestacada"
+                id="imagenLateral"
                 onChange={(e) => handleImageUpload(e, "LATERAL")}
               />
               <button type="button" onClick={subirArchivo}>
@@ -189,7 +189,7 @@ const VehicleForm = () => {
               <input
                 type="file"
                 accept="image/*"
-                id="imagenDestacada"
+                id="imagenTrasera"
                 onChange={(e) => handleImageUpload(e, "TRASERA")}
               />
               <button type="button" onClick={subirArchivo}>

@@ -5,8 +5,8 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import ProfileEditor from "./components/ProfileEditor";
-import VehicleForm from "./components/VehicleForm";
-import VehicleList from "./components/VehicleList";
+import VehicleForm from "./components/vehicles/VehicleForm";
+import VehicleList from "./components/vehicles/VehicleList";
 import { Error404 } from "./components/Error404";
 import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { Cart } from "./components/Cart";
@@ -16,7 +16,9 @@ import { AuthProvider } from "./contexts/AuthContext";
 import SellerDashboard from "./components/SellerDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import { Consigna } from "./components/Consigna";
-import MassVehicleUpload from "./components/MassVehicleUpload";
+import MassVehicleUpload from "./components/vehicles/MassVehicleUpload";
+import VehicleEdit from "./components/vehicles/VehicleEdit";
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -84,6 +86,11 @@ function App() {
                 />
               }
             />
+            <Route
+              path="editarautomotor/:id"
+              element={<VehicleEdit greeting="Editar automotor" />}
+            />
+            <Route path="/map" element={<Map />} />
             <Route path="/consigna" element={<Consigna />} />
             <Route path="/perfil" element={<ProfileEditor />} />
             <Route path="/dashboardvendedor" element={<SellerDashboard />} />
