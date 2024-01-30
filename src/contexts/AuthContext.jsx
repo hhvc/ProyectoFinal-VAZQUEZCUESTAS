@@ -26,24 +26,27 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState(null);
-  const [userName, setUserName] = useState(null)
+  const [userName, setUserName] = useState(null);
+  const [userLastName, setUserLastName] = useState(null);
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
         setUser("");
         setUserRole(null);
         setUserName(null);
+        setUserLastName(null);
       } else {
         setUser(currentUser);
 
-        // Obtén el rol y nombre del usuario desde Firestore
+        // Obtén el rol, nombre y apellido del usuario desde Firestore
         const userDocRef = doc(db, "users", currentUser.uid);
         const userDocSnapshot = await getDoc(userDocRef);
 
         if (userDocSnapshot.exists()) {
           const userData = userDocSnapshot.data();
           setUserRole(userData.rol);
-          setUserName(userData.nombre)
+          setUserName(userData.nombre);
+          setUserLastName(userData.apellido);
         }
       }
     });
@@ -87,7 +90,16 @@ export function AuthProvider({ children }) {
 
   return (
     <authContext.Provider
-      value={{ register, login, loginWithGoogle, logout, user, userRole, userName }}
+      value={{
+        register,
+        login,
+        loginWithGoogle,
+        logout,
+        user,
+        userRole,
+        userName,
+        userLastName,
+      }}
     >
       {children}
     </authContext.Provider>

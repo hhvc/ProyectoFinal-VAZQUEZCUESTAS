@@ -7,16 +7,32 @@ import {
   doc,
   getDoc,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuth } from "../../contexts/AuthContext";
+import Alert from "../Alert";
 
 const VehicleEdit = () => {
   const { id } = useParams();
   const storage = getStorage();
-  const [showAlert, setShowAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const { userRole } = useAuth();
+  const { user, userRole, userName, userLastName } = useAuth();
+  const [userNameComplete, setUserNameComplete] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setUserNameComplete(
+        userName
+          ? userLastName
+            ? `${userName} ${userLastName}`
+            : userName
+          : userLastName || ""
+      );
+    }
+  }, [user]);
+
   // Verifica si el usuario tiene el rol necesario
   if (!["VENDEDOR", "SUPERVISOR", "ADMINISTRADOR"].includes(userRole)) {
     return (
@@ -70,7 +86,7 @@ const VehicleEdit = () => {
     STOCK: "",
     YEAR: "",
     combustible: "",
-    destacado: "",
+    destacado: false,
     kms: "",
     marca: "",
     modelo: "",
@@ -80,7 +96,7 @@ const VehicleEdit = () => {
 
   useEffect(() => {
     if (!id) {
-      console.error("El vehicleId no está definido correctamente.");
+      console.error("El id del automotor no está definido correctamente.");
       return;
     }
 
@@ -140,17 +156,49 @@ const VehicleEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Actualiza la fecha y el usuario de modificación
+    const fechaModificacion = serverTimestamp();
+    // Combina la información de la fecha y el usuario con los datos del vehículo
+    const updatedVehicleData = {
+      ...vehicleData,
+      FECHAMODIFICACION: fechaModificacion,
+      USUARIOMODIFICACION: userNameComplete,
+    };
     // Actualiza los datos del vehículo en Firestore
     try {
       const vehicleDocRef = doc(db, "automotores", id);
-      await updateDoc(vehicleDocRef, vehicleData);
+      console.log(updatedVehicleData);
+      await updateDoc(vehicleDocRef, updatedVehicleData);
 
       // Aquí puedes manejar el redireccionamiento o cualquier otra acción necesaria
       console.log("Datos del vehículo actualizados con éxito");
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        // Restablecer el formulario o redirigir
+      }, 2000);
     } catch (error) {
       console.error("Error al actualizar datos del vehículo:", error);
     }
   };
+
+  const handleSwitchChange = (e) => {
+    const { name } = e.target;
+    setVehicleData((prevData) => ({
+      ...prevData,
+      [name]: !prevData[name],
+    }));
+    // Para alternar entre "Verdadero" y "Falso"
+    setSwitchLabels((prevLabels) => ({
+      ...prevLabels,
+      [name]: !prevLabels[name] ? "Verdadero" : "Falso",
+    }));
+  };
+
+  const [switchLabels, setSwitchLabels] = useState({
+    activo: "Falso",
+    destacado: "Falso",
+  });
 
   return (
     <div className="container">
@@ -242,20 +290,28 @@ const VehicleEdit = () => {
 
               <Form.Group controlId="formEstadoActivo">
                 <Form.Label>¿Activo?</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="activo"
-                  value={vehicleData.ESTADOACTIVO}
-                  onChange={handleInputChange}
+                <Form.Check
+                  type="switch"
+                  id="custom-switch"
+                  label={`¿Activo? - ${
+                    vehicleData.ESTADOACTIVO ? "Verdadero" : "Falso"
+                  }`}
+                  name="ESTADOACTIVO"
+                  checked={vehicleData.ESTADOACTIVO}
+                  onChange={handleSwitchChange}
                 />
               </Form.Group>
               <Form.Group controlId="formDestacado">
                 <Form.Label>Destacado</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Check
+                  type="switch"
+                  id="custom-switch-destacado"
+                  label={`Destacado - ${
+                    vehicleData.destacado ? "Verdadero" : "Falso"
+                  }`}
                   name="destacado"
-                  value={vehicleData.destacado}
-                  onChange={handleInputChange}
+                  checked={vehicleData.destacado}
+                  onChange={handleSwitchChange}
                 />
               </Form.Group>
               <label htmlFor="imagenDestacada" className="form-label">
@@ -325,6 +381,13 @@ const VehicleEdit = () => {
           </div>
         </div>
       </div>
+      {showSuccessAlert && (
+        <Alert
+          message="¡Datos del vehículo actualizados con éxito!"
+          type="success"
+          onClose={() => setShowSuccessAlert(false)}
+        />
+      )}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
-import ReCaptcha from './ReCaptcha';
+import ReCaptcha from "./ReCaptcha";
 
 const ProfileEditor = () => {
   const [showAlert, setShowAlert] = useState(false);
@@ -39,6 +39,11 @@ const ProfileEditor = () => {
             // Creamos un nuevo documento con el rol "customer".
             await setDoc(userDocRef, { rol: "customer" }, { merge: true });
             console.log("Nuevo documento de usuario creado en Firestore");
+            setShowAlert(true);
+            setTimeout(() => {
+              setShowAlert(false);
+              // Restablecer el formulario o redirigir
+            }, 2000);
 
             // Actualizamos el estado con los datos predeterminados.
             setUserData({ rol: "customer" });
@@ -71,7 +76,6 @@ const ProfileEditor = () => {
       const userDocRef = doc(db, "users", auth.user.uid);
       await updateDoc(userDocRef, userData);
       console.log("Datos actualizados con éxito en Firestore");
-
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
