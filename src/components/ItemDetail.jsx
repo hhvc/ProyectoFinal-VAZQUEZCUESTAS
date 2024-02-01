@@ -23,7 +23,7 @@ export const ItemDetail = ({ item }) => {
 
   return (
     <>
-      <Card style={{ width: "37rem" }} className="mx-auto m-2">
+      <Card style={{ width: "100%" }} className="mx-auto m-2">
         <div
           id={`carousel-detail`}
           className="carousel slide"
