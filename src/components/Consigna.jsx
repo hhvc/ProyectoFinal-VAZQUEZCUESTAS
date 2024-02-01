@@ -1,8 +1,10 @@
-import { Container } from "react-bootstrap";
+import { Container, Button} from "react-bootstrap";
 import Map from "./Map";
-import VehicleForm from "./vehicles/VehicleForm";
+import { useAuth } from "../contexts/AuthContext";
+import { NavLink } from "react-router-dom";
 
 export const Consigna = () => {
+  const { user } = useAuth();
   return (
     <Container className="mt-4">
       <h1>SISTEMA DE CONSIGNACION</h1>
@@ -16,10 +18,23 @@ export const Consigna = () => {
       <h3>Traenos tu auto. ¡Te ayudaremos a venderlo!</h3>
       <Map/>
       <div>
-      <h3>¿Querés ganar tiempo?:</h3>
-      <p>Cargá los datos de tu auto</p>
-      <p>Si no estás seguro de algún dato, no te preocupes, después lo corregimos</p>
-      <VehicleForm/>
+        <h3>¿Querés ganar tiempo?:</h3>
+        {user ? (
+          <div>
+            <p>Cargá los datos de tu auto</p>
+            <p>Si no estás seguro de algún dato, no te preocupes, después lo corregimos</p>
+            <NavLink to="/newvehicle">
+              <Button>Cargar Automotor</Button>
+            </NavLink>
+          </div>
+        ) : (
+          <div>
+            <p>Inicia sesión para cargar automotores</p>
+            <NavLink to="/login">
+              <Button>Loguearse</Button>
+            </NavLink>
+          </div>
+        )}
       </div>
     </Container>
   );

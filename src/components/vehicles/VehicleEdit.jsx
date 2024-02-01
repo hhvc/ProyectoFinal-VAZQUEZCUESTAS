@@ -13,6 +13,36 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../Alert";
 
+const saveVehicleData = async (data, id) => {
+  try {
+    const fechaModificacion = serverTimestamp();
+    const updatedVehicleData = {
+      ...data,
+      FECHAMODIFICACION: fechaModificacion,
+      USUARIOMODIFICACION: userNameComplete,
+    };
+
+    if (id) {
+      const vehicleDocRef = doc(db, "automotores", id);
+      await updateDoc(vehicleDocRef, updatedVehicleData);
+      console.log("Datos del vehículo actualizados con éxito");
+    } else {
+      // Crear un nuevo automóvil
+      const newVehicleRef = collection(db, "automotores");
+      await setDoc(newVehicleRef, updatedVehicleData);
+      console.log("Nuevo vehículo creado con éxito");
+    }
+
+    setShowSuccessAlert(true);
+    setTimeout(() => {
+      setShowSuccessAlert(false);
+      // Restablecer el formulario o redirigir
+    }, 2000);
+  } catch (error) {
+    console.error("Error al guardar datos del vehículo:", error);
+  }
+};
+
 const VehicleEdit = () => {
   const { id } = useParams();
   const storage = getStorage();
@@ -151,35 +181,12 @@ const VehicleEdit = () => {
     } catch (error) {
       console.error("Error al subir archivo:", error);
     }
+    saveVehicleData(vehicleData, id);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Actualiza la fecha y el usuario de modificación
-    const fechaModificacion = serverTimestamp();
-    // Combina la información de la fecha y el usuario con los datos del vehículo
-    const updatedVehicleData = {
-      ...vehicleData,
-      FECHAMODIFICACION: fechaModificacion,
-      USUARIOMODIFICACION: userNameComplete,
-    };
-    // Actualiza los datos del vehículo en Firestore
-    try {
-      const vehicleDocRef = doc(db, "automotores", id);
-      console.log(updatedVehicleData);
-      await updateDoc(vehicleDocRef, updatedVehicleData);
-
-      // Aquí puedes manejar el redireccionamiento o cualquier otra acción necesaria
-      console.log("Datos del vehículo actualizados con éxito");
-      setShowSuccessAlert(true);
-      setTimeout(() => {
-        setShowSuccessAlert(false);
-        // Restablecer el formulario o redirigir
-      }, 2000);
-    } catch (error) {
-      console.error("Error al actualizar datos del vehículo:", error);
-    }
+    saveVehicleData(vehicleData, id);
   };
 
   const handleSwitchChange = (e) => {
@@ -199,6 +206,35 @@ const VehicleEdit = () => {
     activo: "Falso",
     destacado: "Falso",
   });
+  const saveVehicleData = async (data, id) => {
+    try {
+      const fechaModificacion = serverTimestamp();
+      const updatedVehicleData = {
+        ...data,
+        FECHAMODIFICACION: fechaModificacion,
+        USUARIOMODIFICACION: userNameComplete,
+      };
+
+      if (id) {
+        const vehicleDocRef = doc(db, "automotores", id);
+        await updateDoc(vehicleDocRef, updatedVehicleData);
+        console.log("Datos del vehículo actualizados con éxito");
+      } else {
+        // Crear un nuevo automóvil
+        const newVehicleRef = collection(db, "automotores");
+        await setDoc(newVehicleRef, updatedVehicleData);
+        console.log("Nuevo vehículo creado con éxito");
+      }
+
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        // Restablecer el formulario o redirigir
+      }, 2000);
+    } catch (error) {
+      console.error("Error al guardar datos del vehículo:", error);
+    }
+  };
 
   return (
     <div className="container">
@@ -206,9 +242,9 @@ const VehicleEdit = () => {
         <div className="col-md-6 offset-md-3">
           <div className="card card-body shadow">
             <form onSubmit={handleSubmit}>
-              <h3 className="title">Editar Vehículo</h3>
-
-              {/* Aquí debes agregar campos de formulario según tus necesidades */}
+              <h3 className="title">
+                {id ? "Editar Vehículo" : "Nuevo Vehículo"}
+              </h3>
               <Form.Group controlId="formMarca">
                 <Form.Label>Marca</Form.Label>
                 <Form.Control
@@ -241,7 +277,7 @@ const VehicleEdit = () => {
               <Form.Group controlId="formYear">
                 <Form.Label>Año</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="YEAR"
                   value={vehicleData.YEAR}
                   onChange={handleInputChange}
@@ -271,7 +307,7 @@ const VehicleEdit = () => {
               <Form.Group controlId="formKms">
                 <Form.Label>Kilómetros</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="kms"
                   value={vehicleData.kms}
                   onChange={handleInputChange}
@@ -281,7 +317,7 @@ const VehicleEdit = () => {
               <Form.Group controlId="formPrecio">
                 <Form.Label>Precio</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="precio"
                   value={vehicleData.precio}
                   onChange={handleInputChange}

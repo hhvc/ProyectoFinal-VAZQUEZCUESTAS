@@ -10,8 +10,8 @@ function NavBar() {
   const auth = useAuth();
   const navigate = useNavigate();
   const userDisplayName = auth.userName || "Usuario invitado";
-  const userPhotoURL = auth.user?.photoURL;
-
+  const { userFotoPerfil} = useAuth();
+  const userPhotoURL = userFotoPerfil || auth.user?.photoURL || null;
   const renderProfileLink = () => {
     return (
       <NavDropdown.Item onClick={handleEditProfileClick}>

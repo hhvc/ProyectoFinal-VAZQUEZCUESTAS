@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userLastName, setUserLastName] = useState(null);
+  const [userFotoPerfil, setUserFotoPerfil] = useState(null);
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
@@ -35,6 +36,7 @@ export function AuthProvider({ children }) {
         setUserRole(null);
         setUserName(null);
         setUserLastName(null);
+        setUserFotoPerfil(null)
       } else {
         setUser(currentUser);
 
@@ -47,6 +49,7 @@ export function AuthProvider({ children }) {
           setUserRole(userData.rol);
           setUserName(userData.nombre);
           setUserLastName(userData.apellido);
+          setUserFotoPerfil(userData.fotoPerfil);
         }
       }
     });
@@ -99,6 +102,7 @@ export function AuthProvider({ children }) {
         userRole,
         userName,
         userLastName,
+        userFotoPerfil,
       }}
     >
       {children}

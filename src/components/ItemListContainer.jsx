@@ -22,11 +22,14 @@ export const ItemListContainer = (props) => {
 
     const refCollection = !id
       ? collection(db, "automotores")
-      : id == "0kms"
-      ? query(collection(db, "automotores"), where("kms", "==", 0))
-      : id == "destacados"
-      ? query(collection(db, "automotores"), where("destacado", "==", true))
-      : query(collection(db, "automotores"), where("kms", ">", 0));
+      : id === "0kms"
+      ? query(collection(db, "automotores"), where("kms", "in", [0, "0", "si", "sí"]))
+      : id === "destacados"
+      ? query(
+          collection(db, "automotores"),
+          where("destacado", "in", [true, "true", "VERDADERO", "si", "sí"])
+        )
+      : query(collection(db, "automotores"), where("kms", "not-in", [0, "0", "si", "sí"]));
 
     getDocs(refCollection).then((snapshot) => {
       if (snapshot.size === 0)
@@ -45,7 +48,11 @@ export const ItemListContainer = (props) => {
       <Container className="mt-4">
         <h1>{props.greeting}</h1>
         <div>
-          {items ? <ItemList items={items} /> : <>Loading ...</>}
+          {items.length > 0 ? (
+            <ItemList items={items} />
+          ) : (
+            <p>No se encontraron automotores para mostrar.</p>
+          )}
         </div>
       </Container>
       {/* <Map /> */}

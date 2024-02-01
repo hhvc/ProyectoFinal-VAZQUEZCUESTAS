@@ -60,9 +60,9 @@ function App() {
               }
             />
             <Route
-              path="/vehicleform"
+              path="/newvehicle"
               element={
-                <VehicleForm
+                <VehicleEdit
                   registro={true}
                   greeting="Formulario para carga de automotores"
                 />

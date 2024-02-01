@@ -32,6 +32,18 @@ export const Item = ({ item, index }) => {
             data-bs-slide-to="2"
             aria-label="Slide 3"
           ></button>
+          <button
+            type="button"
+            data-bs-target={`#${carouselId}`}
+            data-bs-slide-to="3"
+            aria-label="Slide 4"
+          ></button>
+          <button
+            type="button"
+            data-bs-target={`#${carouselId}`}
+            data-bs-slide-to="4"
+            aria-label="Slide 5"
+          ></button>
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -57,6 +69,22 @@ export const Item = ({ item, index }) => {
               className="d-block w-100"
               alt="Imagen interior"
               src={item.IMAGEN.INTERIOR || ImgXDefecto}
+            />
+          </div>
+          <div className="carousel-item">
+            <Card.Img
+              variant="top"
+              className="d-block w-100"
+              alt="Imagen lateral"
+              src={item.IMAGEN.LATERAL || ImgXDefecto}
+            />
+          </div>
+          <div className="carousel-item">
+            <Card.Img
+              variant="top"
+              className="d-block w-100"
+              alt="Imagen trasera"
+              src={item.IMAGEN.TRASERA || ImgXDefecto}
             />
           </div>
         </div>
