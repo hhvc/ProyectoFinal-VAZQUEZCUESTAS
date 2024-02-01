@@ -12,6 +12,7 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../Alert";
+import ReCaptcha from "../ReCaptcha";
 
 const saveVehicleData = async (data, id) => {
   try {
@@ -350,66 +351,82 @@ const VehicleEdit = () => {
                   onChange={handleSwitchChange}
                 />
               </Form.Group>
-              <label htmlFor="imagenDestacada" className="form-label">
-                Imagen Destacada
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="imagenDestacada"
-                onChange={(e) => handleImageUpload(e, "DESTACADA")}
-              />
-              <button type="button" onClick={subirArchivo}>
+              <div className="mb-3">
+                <label htmlFor="imagenDestacada" className="form-label">
+                  Imagen Destacada
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="imagenDestacada"
+                  onChange={(e) => handleImageUpload(e, "DESTACADA")}
+                />
+                </div>
+                {/* <button type="button" onClick={subirArchivo}>
                 Subir Imagen
-              </button>
-              <label htmlFor="imagenFrente" className="form-label">
-                Imagen Frente
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="imagenFrente"
-                onChange={(e) => handleImageUpload(e, "FRENTE")}
-              />
-              <button type="button" onClick={subirArchivo}>
+              </button> */}
+              <div className="mb-3">
+                <label htmlFor="imagenFrente" className="form-label">
+                  Imagen Frente
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="imagenFrente"
+                  onChange={(e) => handleImageUpload(e, "FRENTE")}
+                />
+                {/* <button type="button" onClick={subirArchivo}>
                 Subir Imagen
-              </button>
-              <label htmlFor="imagenInterior" className="form-label">
-                Imagen Interior
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="imagenInterior"
-                onChange={(e) => handleImageUpload(e, "INTERIOR")}
-              />
-              <button type="button" onClick={subirArchivo}>
+              </button> */}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="imagenInterior" className="form-label">
+                  Imagen Interior
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="imagenInterior"
+                  onChange={(e) => handleImageUpload(e, "INTERIOR")}
+                />
+                {/* <button type="button" onClick={subirArchivo}>
                 Subir Imagen
-              </button>
-              <label htmlFor="imagenLateral" className="form-label">
-                Imagen Lateral
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="imagenLateral"
-                onChange={(e) => handleImageUpload(e, "LATERAL")}
-              />
-              <button type="button" onClick={subirArchivo}>
+              </button> */}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="imagenLateral" className="form-label">
+                  Imagen Lateral
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="imagenLateral"
+                  onChange={(e) => handleImageUpload(e, "LATERAL")}
+                />
+                {/* <button type="button" onClick={subirArchivo}>
                 Subir Imagen
-              </button>
-              <label htmlFor="imagenTrasera" className="form-label">
-                Imagen Trasera
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="imagenTrasera"
-                onChange={(e) => handleImageUpload(e, "TRASERA")}
-              />
-              <button type="button" onClick={subirArchivo}>
+              </button> */}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="imagenTrasera" className="form-label">
+                  Imagen Trasera
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="imagenTrasera"
+                  onChange={(e) => handleImageUpload(e, "TRASERA")}
+                />
+                {/* <button type="button" onClick={subirArchivo}>
                 Subir Imagen
-              </button>
+              </button> */}
+              </div>
+              <ReCaptcha />
               <button type="submit" className="btn btn-primary">
                 Guardar Cambios
               </button>
